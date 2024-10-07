@@ -1,14 +1,33 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
 
 const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const userCredentials = {
+        email: 'User@prahladapp.com',
+        password: 'user123'
+    };
+
     const handleLogin = () => {
-        console.log('Login', email, password);
-        navigation.navigate('Home')
+
+        if (!email.trim()) {
+            Alert.alert('Error', 'Email is Required');
+            return;
+        }
+
+        if (!password.trim()) {
+            Alert.alert('Error', 'Password is Required');
+            return;
+        }
+
+        if (email === userCredentials.email && password === userCredentials.password) {
+            navigation.navigate('Home');
+        } else {
+            Alert.alert('Error', 'Invalid email or password');
+        }
     };
 
     return (
@@ -16,9 +35,16 @@ const LoginScreen = ({ navigation }) => {
             <Text style={styles.title}>Login</Text>
             <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} />
             <TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
-            <Button title="Login" onPress={handleLogin} />
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+
+
             <Text onPress={() => navigation.navigate('Register')} style={styles.link}>
                 Don't have an account? Register
+            </Text>
+            <Text onPress={() => navigation.navigate('Admin')} style={styles.link}>
+                Go to Admin Login
             </Text>
         </View>
     )
@@ -27,9 +53,11 @@ const LoginScreen = ({ navigation }) => {
 
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', padding: 15 },
-    title: { fontSize: 24, textAlign: 'center', marginBottom: 24 },
-    input: { borderWidth: 1, marginBottom: 12, padding: 8, borderRadius: 4 },
+    container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
+    title: { fontSize: 24, textAlign: 'center', marginBottom: 20, fontWeight: 'bold', color: '#ff4500' },
+    input: { borderWidth: 1, marginVertical: 10, paddingHorizontal: 10, borderRadius: 5, width: '100%', height: 40, borderColor: '#cccccc' },
+    button: { width: '100%', height: 50, backgroundColor: '#ff4500', justifyContent: 'center', alignItems: 'center', borderRadius: 5, marginTop: 20 },
+    buttonText: { color: '#ffffff', fontSize: 18, fontWeight: 'bold' },
     link: { color: 'blue', marginTop: 16, textAlign: 'center' },
 })
 
