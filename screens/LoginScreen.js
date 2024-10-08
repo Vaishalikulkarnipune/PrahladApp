@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, onLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -24,7 +24,7 @@ const LoginScreen = ({ navigation }) => {
         }
 
         if (email === userCredentials.email && password === userCredentials.password) {
-            navigation.navigate('Home');
+            onLogin();
         } else {
             Alert.alert('Error', 'Invalid email or password');
         }
@@ -43,7 +43,7 @@ const LoginScreen = ({ navigation }) => {
             <Text onPress={() => navigation.navigate('Register')} style={styles.link}>
                 Don't have an account? Register
             </Text>
-            <Text onPress={() => navigation.navigate('Admin')} style={styles.link}>
+            <Text onPress={() => navigation.navigate('Adminlogin')} style={styles.link}>
                 Go to Admin Login
             </Text>
         </View>

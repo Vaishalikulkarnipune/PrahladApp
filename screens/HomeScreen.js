@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const HomeScreen = ({ navigation }) => {
     return (
@@ -8,11 +8,6 @@ const HomeScreen = ({ navigation }) => {
 
             <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SlotBooking')}>
                 <Text style={styles.buttonText}>Book a Slot</Text>
-            </TouchableOpacity>
-
-
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Profile')}>
-                <Text style={styles.buttonText}>Profile</Text>
             </TouchableOpacity>
         </View>
     )

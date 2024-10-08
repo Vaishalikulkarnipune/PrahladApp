@@ -16,11 +16,6 @@ const SlotBookingScreen = () => {
         }
     };
 
-    // const disableNonSaturdays = (day) => {
-    //     const date = new Date(day.timestamp);
-    //     return date.getDay() !== 6;
-    // };
-
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Book Your Upasana Slot</Text>
