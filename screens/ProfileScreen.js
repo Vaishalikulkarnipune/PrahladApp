@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Button, ScrollView, TouchableOpacity, Image } from 'react-native'
+import * as ImagePicker from 'expo-image-picker'
 
 const ProfileScreen = () => {
 
+    
     const [userData, setUserData] = useState({
         firstName: 'Vedant',
         middleName: 'Girish',
@@ -21,6 +23,10 @@ const ProfileScreen = () => {
         gender: 'Male'
     });
 
+
+    const [profilePic, setProfilePic] = useState(null);
+    const [gender, setGender] = useState('male')
+
     const [isEditable, setIsEditable] = useState(false);
 
     const handleEditPress = () => {
@@ -32,11 +38,68 @@ const ProfileScreen = () => {
         // save the data to backend
     }
 
+    const pickImage = async () => {
+        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (!permissionResult.granted) {
+            alert('Permission to access camera roll is required');
+            return;
+        }
+
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1,1],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            console.log(result.uri);
+            
+            setProfilePic(result.assets[0].uri)
+        }
+    };
+
+    const renderProfilePicture = () => {
+        if(profilePic) {
+            return (
+                <Image source={{uri: profilePic}}
+                style={styles.profilePic}
+                rounded
+                />
+            );
+        } else {
+            return (
+                <Image 
+                    source={
+                        gender === 'male'
+                        ? require('../assets/male.jpg')
+                        : require('../assets/female.jpg')
+                    }
+                    style={styles.profilePic}
+
+                />
+            );
+        }
+    };
+
+    const removeProfilePic = () => {
+        setProfilePic(null)
+    }
+
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.container}>
             <Text style={styles.header}>Profile</Text>
+
+            <TouchableOpacity onPress={pickImage} style={styles.avatarContainer}>
+                {renderProfilePicture()}
+                <Text style={styles.editText}>Edit Profile Picture</Text>
+            </TouchableOpacity>
+
+            {profilePic && (
+                <Text style={styles.removePic} onPress={removeProfilePic}>Remove Profile Picture</Text>
+            )}
 
             <View style={styles.formGroup}>
                 <Text style={styles.label}>First Name:</Text>
@@ -129,9 +192,13 @@ const styles = StyleSheet.create({
     inputEditable: {borderColor: '#FF6F00'},
     buttonContainer: {flexDirection: 'row', justifyContent: 'space-between', marginTop: 20},
     editButton: {backgroundColor: '#FF6F00', padding: 10, borderRadius: 5, alignItems: 'center'},
-    saveButton: {backgroundColor: '#FF6FF0', padding: 10, borderRadius: 5, flex: 1, marginRight: 5},
-    cancelButton: {backgroundColor: '#B22222', padding: 10, borderRadius: 5, flex: 1, marginLeft: 5},
-    buttonText: {color: '#fff', fontSize: 16, fontWeight: 'bold'}
+    saveButton: {backgroundColor: '#4CAF50', padding: 10, borderRadius: 5, flex: 1, marginRight: 5},
+    cancelButton: {backgroundColor: '#808080', padding: 10, borderRadius: 5, flex: 1, marginLeft: 5},
+    buttonText: {color: '#fff', fontSize: 16, fontWeight: 'bold'},
+    profilePic: {width: 100, height: 100, borderRadius: 50, borderWidth: 2, borderColor: '#ff4500', marginBottom: 10},
+    editText: {color: '#ff4500', fontWeight: 'bold', textAlign: 'center'},
+    avatarContainer: {alignItems: 'center', marginBottom: 20},
+    removePic: {color: '#ff4500', fontWeight: 'bold', textAlign: 'center', marginTop: -10, marginBottom: 20}
 })
 
 export default ProfileScreen
