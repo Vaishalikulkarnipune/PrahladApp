@@ -1,13 +1,10 @@
-// This Screen is of the User Panel
-
-
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, } from 'react-native';
 
-const BookingScreen = () => {
+const DashboardScreen = () => {
     return (
         <View style={StyleSheet.container}>
-            <Text style={styles.text}>Your Bookings wil be listed here</Text>
+            <Text style={styles.text}>This is your Dashboard Screen</Text>
         </View>
     )
 };
@@ -17,4 +14,4 @@ const styles = StyleSheet.create({
     text: { fontSize: 18, color: '#ff4500', paddingTop: 15, paddingLeft: 20, paddingRight: 20, paddingBottom: 15 },
 })
 
-export default BookingScreen
+export default DashboardScreen
