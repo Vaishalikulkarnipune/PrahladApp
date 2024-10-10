@@ -49,15 +49,15 @@ Now open the expo go application in your mobile. You will see a QR code displayi
 Now that you have opened the App you will have to enter the following credentials to login as a user
 
 ```
-email-id: User@prahladapp.com
-password: user123
+email-id: U
+password: U
 ```
 
 If you are logging in as an Admin, then use the following credentials
 
 ```
-email-id: admin@prahladapp.com
-password: admin123
+email-id: A
+password: A
 ```
 If you still face any issues logging in that may be due to the credentials change. Just go to the LoginScreen.js file in the screns folder, there you will find a an object named as **userCredentials**. The object has the latest credentials. Use that credentials to login.
 
