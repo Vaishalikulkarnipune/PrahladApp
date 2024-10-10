@@ -10,16 +10,10 @@ import ProfileScreen from "../screens/ProfileScreen";
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import SlotBookingScreen from "../screens/SlotBookingScreen";
-import AdminLoginScreen from "../screens/AdminLoginScreen";
-import AdminDashboard from "../screens/AdminDashboard";
 import { Ionicons } from '@expo/vector-icons';
 import { View, ActivityIndicator } from "react-native";
 import Toast from "react-native-toast-message";
-// import MembersScreen from "../screens/MembersScreen";
-// import SettingsScreen from "../screens/SettingsScreen";
-// import BookingsScreen from "../screens/BookingsScreen";
-// import NotificationsScreen from "../screens/NotificationsScreen";
-// import DashboardScreen from "../screens/DashboardScreen";
+import AdminDashboard from "../screens/AdminDashboard";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -35,7 +29,7 @@ const AppNavigator = () => {
         setTimeout(() => {
             setLoading(false);
             setIsLoggedIn(true);
-        }, 2000);
+        }, 500);
     };
 
     const handleAdminLogin = () => {
@@ -43,7 +37,7 @@ const AppNavigator = () => {
         setTimeout(() => {
             setLoading(false);
             setIsAdminLoggedIn(true);
-        }, 2000);
+        }, 500);
     };
 
     if (loading) {
@@ -71,7 +65,7 @@ const AppNavigator = () => {
                                         let iconName;
                                         if (route.name === 'Home') {
                                             iconName = 'home';
-                                        } else if (route.name === 'Bookings') {
+                                        } else if (route.name === 'My Bookings') {
                                             iconName = 'calendar';
                                         } else if (route.name === 'List') {
                                             iconName = 'list';
@@ -87,7 +81,7 @@ const AppNavigator = () => {
                                 })}
                             >
                                 <Tab.Screen name="Home" component={HomeScreen} />
-                                <Tab.Screen name="Bookings">
+                                <Tab.Screen name="My Bookings">
                                     {(props) => <BookingScreen {...props} bookings={bookings} />}
                                 </Tab.Screen>
                                 <Tab.Screen name="List" component={ListScreen} />
@@ -100,26 +94,30 @@ const AppNavigator = () => {
                     <Stack.Screen name="SlotBooking" >
                         {(props) => <SlotBookingScreen {...props} addBooking={addBooking} /> }
                     </Stack.Screen>
-                    <Stack.Screen name="Adminlogin" component={AdminLoginScreen} options={{ title: 'Admin Panel' }} />
                     <Stack.Screen name="Register" component={RegisterScreen} options={{ title: 'Registration' }} />
+
+                    <Stack.Screen name="Adminlogin" component={AdminDashboard} options={{ title: 'Admin Panel' }} />
                 </Stack.Navigator>
-            ) : isAdminLoggedIn ? (
+            ) 
+            : isAdminLoggedIn ? (
                 <Stack.Navigator>
-                    <Stack.Screen name="AdminLogin" component={AdminLoginScreen} options={{ title: 'Admin Login', headerShown: false }} />
                     <Stack.Screen name="AdminDashboard" component={AdminDashboard} options={{ headerShown: false }} />
                 </Stack.Navigator>
-            ) : (
+            ) 
+            : 
+            (
                 <Stack.Navigator>
                     <Stack.Screen name="Login">
-                        {(props) => <LoginScreen {...props} onLogin={handleUserLogin} />}
+                        {(props) => <LoginScreen {...props} onLogin={handleUserLogin} onAdminLogin={handleAdminLogin} />}
                     </Stack.Screen>
+                    <Stack.Screen name="Register" component={RegisterScreen} options={{ title: 'Registration' }} />
+
+
                     <Stack.Screen name="AdminLogin">
-                        {(props) => <AdminLoginScreen {...props} onLogin={handleAdminLogin} />}
+                        {(props) => <AdminDashboard {...props} />}
                     </Stack.Screen>
 
                     <Stack.Screen name="AdminDashboard" component={AdminDashboard} options={{ headerShown: false }} />
-                    <Stack.Screen name="Register" component={RegisterScreen} options={{ title: 'Registration' }} />
-                    <Stack.Screen name="Adminlogin" component={AdminLoginScreen} options={{ title: 'Admin Panel' }} />
                 </Stack.Navigator>
             )}
         </NavigationContainer>
