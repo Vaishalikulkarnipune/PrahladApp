@@ -26,6 +26,11 @@ const BookingScreen = () => {
                             <Text style={[styles.bookingText, item.status === 'Confirmed' ? styles.statusConfirmed : styles.statusCancelled]}>{item.status}</Text>
                         </View>
 
+                        <View style={styles.bookingDetails}>
+                            <Text style={styles.bookingLabel}>Bhandara: </Text>
+                            <Text style={[styles.bookingText, item.bhandaraStatus === 'Available' ? styles.statusConfirmed : styles.statusCancelled]}>{item.bhandaraStatus}</Text>
+                        </View>
+
                     </View>
                 )} />
             ) : (

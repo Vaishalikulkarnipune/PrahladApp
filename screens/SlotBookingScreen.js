@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, Alert, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Alert, StyleSheet, TouchableOpacity, Switch } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import Toast from 'react-native-toast-message';
 import { useBooking } from '../context/BookingContext';
 
 
-const SlotBookingScreen = ({navigation}) => {
+const SlotBookingScreen = ({ navigation }) => {
     const [selectedDate, setSelectedDate] = useState('');
     const { addBooking } = useBooking()
+    const [isBhandaraAvailable, setIsBhandaraAvailable] = useState(false);
 
     const handleDayPress = (day) => {
         const date = new Date(day.timestamp);
@@ -19,6 +20,10 @@ const SlotBookingScreen = ({navigation}) => {
         }
     };
 
+    const toggleBhandaraAvailability = () => {
+        setIsBhandaraAvailable(previousState => !previousState);
+    };
+
     const handleConfirmBooking = () => {
 
         // Trigger Confirmation Dialog
@@ -26,33 +31,34 @@ const SlotBookingScreen = ({navigation}) => {
             text: "Cancel",
             onPress: () => console.log("Booking Cancellled"),
             style: "cancel",
-            },
-            {
-                text: "Yes",
-                onPress: () => {
+        },
+        {
+            text: "Yes",
+            onPress: () => {
 
-                    const bookedSlot = {
-                        date: selectedDate,
-                        status: "Confirmed"
-                    };
-                    addBooking(bookedSlot);
-                    
-                    setTimeout(() => {
-                        navigation.navigate('Home')    
-                    }, 2500);
+                const bookedSlot = {
+                    date: selectedDate,
+                    status: "Confirmed",
+                    bhandaraStatus: isBhandaraAvailable ? 'Available' : 'Not Available',
+                };
+                addBooking(bookedSlot);
 
-                    Toast.show({
-                        type: 'success',
-                        text1: 'Success',
-                        text2: 'Your Slot has been booked successfully! 🎉',
-                        visibilityTime: 2500,
-                    });
-                    
-                }
+                setTimeout(() => {
+                    navigation.navigate('My Bookings')
+                }, 2500);
+
+                Toast.show({
+                    type: 'success',
+                    text1: 'Success',
+                    text2: 'Your Slot has been booked successfully! 🎉',
+                    visibilityTime: 2500,
+                });
+
             }
+        }
         ],
-        {cancelable: false}
-    );
+            { cancelable: false }
+        );
     };
 
     return (
@@ -108,6 +114,18 @@ const SlotBookingScreen = ({navigation}) => {
                     );
                 }} />
 
+            <View style={styles.toggleContainer}>
+                <Switch
+                    value={isBhandaraAvailable}
+                    onValueChange={toggleBhandaraAvailability}
+                    trackColor={{ false: '#767577', true: '#81b0ff' }}
+                    thumbColor={isBhandaraAvailable ? '#ff4500' : '#f4f3f4'}
+                />
+                <Text style={isBhandaraAvailable ? styles.toggleTextAfter : styles.toggleText}>
+                    Bhandara is {isBhandaraAvailable ? 'Available' : 'Not Available'}
+                </Text>
+            </View>
+
             {selectedDate ? (
                 <View style={styles.selection}>
                     <Text style={styles.selectedText}>Selected Date: {selectedDate}</Text>
@@ -116,6 +134,8 @@ const SlotBookingScreen = ({navigation}) => {
                     </TouchableOpacity>
                 </View>
             ) : null}
+
+
         </View>
     );
 };
@@ -129,6 +149,23 @@ const styles = StyleSheet.create({
     confirmButtonText: { color: '#ffffff', fontSize: 16, fontWeight: 'bold' },
     dayContainer: { alignItems: 'center', justifyContent: 'center', height: 40, width: 40, borderRadius: 20 },
     selectedDay: { borderColor: '#ff8c00', borderWidth: 2 },
+    toggleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    toggleText: {
+        fontSize: 18,
+        marginLeft: 10,
+        color: '#2d4150', // Text color according to the theme
+        fontWeight: 'bold',
+    },
+    toggleTextAfter: {
+        fontSize: 18,
+        marginLeft: 10,
+        color: '#ff4500', // Text color according to the theme
+        fontWeight: 'bold',
+    }
 })
 
 export default SlotBookingScreen;
