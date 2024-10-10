@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
 
-const LoginScreen = ({ navigation, onLogin }) => {
+const LoginScreen = ({ navigation, onLogin, onAdminLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const userCredentials = {
-        email: 'User@prahladapp.com',
-        password: 'user123'
+        email: 'U',
+        password: 'U'
+    };
+
+    const adminCredentials = {
+        email: 'A',
+        password: 'A',
     };
 
     const handleLogin = () => {
@@ -23,11 +28,16 @@ const LoginScreen = ({ navigation, onLogin }) => {
             return;
         }
 
+        if (email === adminCredentials.email && password === adminCredentials.password) {
+            onAdminLogin();
+        } else {
+
         if (email === userCredentials.email && password === userCredentials.password) {
             onLogin();
         } else {
             Alert.alert('Error', 'Invalid email or password');
         }
+    }
     };
 
     return (
@@ -43,9 +53,7 @@ const LoginScreen = ({ navigation, onLogin }) => {
             <Text onPress={() => navigation.navigate('Register')} style={styles.link}>
                 Don't have an account? Register
             </Text>
-            <Text onPress={() => navigation.navigate('Adminlogin')} style={styles.link}>
-                Go to Admin Login
-            </Text>
+
         </View>
     )
 

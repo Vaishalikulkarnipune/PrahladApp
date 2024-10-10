@@ -11,7 +11,6 @@ const BookingScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>My Bookings</Text>
 
             {bookings.length > 0 ? (
                 <FlatList data={bookings} keyExtractor={(item, index) => index.toString()} renderItem={({ item }) => (

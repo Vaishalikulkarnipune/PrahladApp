@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Button, ScrollView, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 
 const ProfileScreen = () => {
@@ -27,16 +27,6 @@ const ProfileScreen = () => {
     const [profilePic, setProfilePic] = useState(null);
     const [gender, setGender] = useState('male')
 
-    const [isEditable, setIsEditable] = useState(false);
-
-    const handleEditPress = () => {
-        setIsEditable(!isEditable);
-    };
-
-    const handleSavePress = () => {
-        setIsEditable(false)
-        // save the data to backend
-    }
 
     const pickImage = async () => {
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -103,80 +93,64 @@ const ProfileScreen = () => {
 
             <View style={styles.formGroup}>
                 <Text style={styles.label}>First Name:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.firstName} onChangeText={(text) => setUserData({ ...userData, firstName: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.firstName} onChangeText={(text) => setUserData({ ...userData, firstName: text })} editable={false} />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>Middle Name:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.middleName} onChangeText={(text) => setUserData({ ...userData, middleName: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.middleName} onChangeText={(text) => setUserData({ ...userData, middleName: text })} editable={false} />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>Last Name:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.lastName} onChangeText={(text) => setUserData({ ...userData, lastName: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.lastName} onChangeText={(text) => setUserData({ ...userData, lastName: text })} editable={false} />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>Email:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.email} onChangeText={(text) => setUserData({ ...userData, email: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.email} onChangeText={(text) => setUserData({ ...userData, email: text })} editable={false} />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>Mobile Number:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.mobileNumber} keyboardType="numeric" onChangeText={(text) => setUserData({ ...userData, mobileNumber: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.mobileNumber} keyboardType="numeric" onChangeText={(text) => setUserData({ ...userData, mobileNumber: text })} editable={false} />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>Alternate Mobile Number</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.altMobileNumber} keyboardType="numeric" onChangeText={(text) => setUserData({ ...userData, altMobileNumber: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.altMobileNumber} keyboardType="numeric" onChangeText={(text) => setUserData({ ...userData, altMobileNumber: text })} editable={false}  />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>Flat No:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.flatNo} onChangeText={(text) => setUserData({ ...userData, flatNo: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.flatNo} onChangeText={(text) => setUserData({ ...userData, flatNo: text })} editable={false} />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>Full Address:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.fullAddress} onChangeText={(text) => setUserData({ ...userData, function: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.fullAddress} onChangeText={(text) => setUserData({ ...userData, function: text })} editable={false} />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>Area:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.area} onChangeText={(text) => setUserData({ ...userData, area: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.area} onChangeText={(text) => setUserData({ ...userData, area: text })} editable={false} />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>Landmark:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.landmark} onChangeText={(text) => setUserData({ ...userData, landmark: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.landmark} onChangeText={(text) => setUserData({ ...userData, landmark: text })}editable={false}  />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>City:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.city} onChangeText={(text) => setUserData({ ...userData, city: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.city} onChangeText={(text) => setUserData({ ...userData, city: text })} editable={false} />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>State:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.state} onChangeText={(text) => setUserData({ ...userData, state: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.state} onChangeText={(text) => setUserData({ ...userData, state: text })} editable={false} />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>Pincode:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.pincode} keyboardType="numeric" onChangeText={(text) => setUserData({ ...userData, pincode: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.pincode} keyboardType="numeric" onChangeText={(text) => setUserData({ ...userData, pincode: text })} editable={false} />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>Anugrahit:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.anugrahit} onChangeText={(text) => setUserData({ ...userData, anugrahit: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.anugrahit} onChangeText={(text) => setUserData({ ...userData, anugrahit: text })} editable={false} />
             </View>
             <View style={styles.formGroup}>
                 <Text style={styles.label}>Gender:</Text>
-                <TextInput style={[styles.input, isEditable && styles.inputEditable]} value={userData.gender} onChangeText={(text) => setUserData({ ...userData, gender: text })} editable={isEditable} />
+                <TextInput style={styles.input} placeholder={userData.gender} onChangeText={(text) => setUserData({ ...userData, gender: text })} editable={false} />
             </View>
-
-            {isEditable ? (
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.saveButton} onPress={handleSavePress}>
-                        <Text style={styles.buttonText}>Save</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.cancelButton} onPress={handleEditPress}>
-                        <Text style={styles.buttonText}>Cancel</Text>
-                    </TouchableOpacity>
-                </View>
-            ) : (
-                <TouchableOpacity style={styles.editButton} onPress={handleEditPress}>
-                        <Text style={styles.buttonText}>Edit</Text>
-                    </TouchableOpacity>
-            )}
         </View>
         </ScrollView>
     )
@@ -189,7 +163,6 @@ const styles = StyleSheet.create({
     formGroup: { marginBottom: 15 },
     label: {fontSize: 16, color: '#333', marginBottom: 5},
     input: { height: 40, borderColor: '#ccc', borderWidth: 1, borderRadius: 5, paddingLeft: 10, backgroundColor: '#f9f9f9' },
-    inputEditable: {borderColor: '#FF6F00'},
     buttonContainer: {flexDirection: 'row', justifyContent: 'space-between', marginTop: 20},
     editButton: {backgroundColor: '#FF6F00', padding: 10, borderRadius: 5, alignItems: 'center'},
     saveButton: {backgroundColor: '#4CAF50', padding: 10, borderRadius: 5, flex: 1, marginRight: 5},
