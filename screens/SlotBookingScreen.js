@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
+import Toast from 'react-native-toast-message';
+import { useBooking } from '../context/BookingContext';
 
 
-const SlotBookingScreen = () => {
+const SlotBookingScreen = ({navigation}) => {
     const [selectedDate, setSelectedDate] = useState('');
+    const { addBooking } = useBooking()
 
     const handleDayPress = (day) => {
         const date = new Date(day.timestamp);
@@ -14,6 +17,42 @@ const SlotBookingScreen = () => {
         } else {
             Alert.alert('Invalid Selection', 'You can only book slots on Saturdays');
         }
+    };
+
+    const handleConfirmBooking = () => {
+
+        // Trigger Confirmation Dialog
+        Alert.alert("Confirm Booking", "Are you sure you want to confirm this slot?", [{
+            text: "Cancel",
+            onPress: () => console.log("Booking Cancellled"),
+            style: "cancel",
+            },
+            {
+                text: "Yes",
+                onPress: () => {
+
+                    const bookedSlot = {
+                        date: selectedDate,
+                        status: "Confirmed"
+                    };
+                    addBooking(bookedSlot);
+                    
+                    setTimeout(() => {
+                        navigation.navigate('Home')    
+                    }, 2500);
+
+                    Toast.show({
+                        type: 'success',
+                        text1: 'Success',
+                        text2: 'Your Slot has been booked successfully! 🎉',
+                        visibilityTime: 2500,
+                    });
+                    
+                }
+            }
+        ],
+        {cancelable: false}
+    );
     };
 
     return (
@@ -72,8 +111,8 @@ const SlotBookingScreen = () => {
             {selectedDate ? (
                 <View style={styles.selection}>
                     <Text style={styles.selectedText}>Selected Date: {selectedDate}</Text>
-                    <TouchableOpacity style={styles.confirmButton} onPress={() => Alert.alert('Booking Confirmed', `Your slot on ${selectedDate} is Confirmed`)}>
-                        <Text style={styles.confirmButtonText}>Confirm</Text>
+                    <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmBooking}>
+                        <Text style={styles.confirmButtonText}>Confirm Slot</Text>
                     </TouchableOpacity>
                 </View>
             ) : null}

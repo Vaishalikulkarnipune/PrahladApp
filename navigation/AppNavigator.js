@@ -14,11 +14,12 @@ import AdminLoginScreen from "../screens/AdminLoginScreen";
 import AdminDashboard from "../screens/AdminDashboard";
 import { Ionicons } from '@expo/vector-icons';
 import { View, ActivityIndicator } from "react-native";
-import MembersScreen from "../screens/MembersScreen";
-import SettingsScreen from "../screens/SettingsScreen";
-import BookingsScreen from "../screens/BookingsScreen";
-import NotificationsScreen from "../screens/NotificationsScreen";
-import DashboardScreen from "../screens/DashboardScreen";
+import Toast from "react-native-toast-message";
+// import MembersScreen from "../screens/MembersScreen";
+// import SettingsScreen from "../screens/SettingsScreen";
+// import BookingsScreen from "../screens/BookingsScreen";
+// import NotificationsScreen from "../screens/NotificationsScreen";
+// import DashboardScreen from "../screens/DashboardScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,6 +28,7 @@ const AppNavigator = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(false);
     const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+    const [bookings, setBookings] = useState([]);
 
     const handleUserLogin = () => {
         setLoading(true);
@@ -52,8 +54,12 @@ const AppNavigator = () => {
         );
     }
 
+    const addBooking = (slot) => {
+        setBookings([...bookings, slot])
+    }
+
     return (
-        // Ensure there is ONLY ONE NavigationContainer at the root
+        <>
         <NavigationContainer>
             {isLoggedIn ? (
                 <Stack.Navigator>
@@ -81,7 +87,9 @@ const AppNavigator = () => {
                                 })}
                             >
                                 <Tab.Screen name="Home" component={HomeScreen} />
-                                <Tab.Screen name="Bookings" component={BookingScreen} />
+                                <Tab.Screen name="Bookings">
+                                    {(props) => <BookingScreen {...props} bookings={bookings} />}
+                                </Tab.Screen>
                                 <Tab.Screen name="List" component={ListScreen} />
                                 <Tab.Screen name="Notifications" component={NotificationScreen} />
                                 <Tab.Screen name="Profile" component={ProfileScreen} />
@@ -89,7 +97,9 @@ const AppNavigator = () => {
                         )}
                     </Stack.Screen>
 
-                    <Stack.Screen name="SlotBooking" component={SlotBookingScreen} options={{ title: 'Book a Slot' }} />
+                    <Stack.Screen name="SlotBooking" >
+                        {(props) => <SlotBookingScreen {...props} addBooking={addBooking} /> }
+                    </Stack.Screen>
                     <Stack.Screen name="Adminlogin" component={AdminLoginScreen} options={{ title: 'Admin Panel' }} />
                     <Stack.Screen name="Register" component={RegisterScreen} options={{ title: 'Registration' }} />
                 </Stack.Navigator>
@@ -113,6 +123,8 @@ const AppNavigator = () => {
                 </Stack.Navigator>
             )}
         </NavigationContainer>
+        <Toast />
+        </>
     );
 };
 

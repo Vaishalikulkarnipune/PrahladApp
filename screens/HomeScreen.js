@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     title: { fontSize: 24, textAlign: 'center', marginBottom: 20, fontWeight: 'bold', color: '#ff4500' },
     text: { marginTop: 8, marginBottom: 8 },
     button: { width: '100%', height: 45, backgroundColor: '#ff4500', justifyContent: 'center', alignItems: 'center', borderRadius: 5, marginTop: 20 },
-    buttonText: { color: '#ffffff', fontSize: 18, fontWeight: 'bold' }
+    buttonText: { color: '#ffffff', fontSize: 18, fontWeight: 'bold' },
 })
 
 export default HomeScreen;
