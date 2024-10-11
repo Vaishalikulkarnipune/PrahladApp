@@ -15,6 +15,7 @@ import { View, ActivityIndicator } from "react-native";
 import Toast from "react-native-toast-message";
 import AdminDashboard from "../screens/AdminDashboard";
 
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -23,6 +24,7 @@ const AppNavigator = () => {
   const [loading, setLoading] = useState(false);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [bookings, setBookings] = useState([]);
+
 
   const handleUserLogin = () => {
     setLoading(true);
@@ -50,6 +52,13 @@ const AppNavigator = () => {
 
   const addBooking = (slot) => {
     setBookings([...bookings, slot]);
+  };
+
+
+
+  const handleLogout = () => {
+    setIsLoggedIn(false); // Reset login state
+    setIsAdminLoggedIn(false); // Reset admin login if necessary
   };
 
   return (
@@ -94,7 +103,11 @@ const AppNavigator = () => {
                     name="Notifications"
                     component={NotificationScreen}
                   />
-                  <Tab.Screen name="Profile" component={ProfileScreen} />
+                  <Tab.Screen name="Profile">
+                    {(props) => (
+                      <ProfileScreen {...props} onLogout={handleLogout} />
+                    )}
+                  </Tab.Screen>
                 </Tab.Navigator>
               )}
             </Stack.Screen>
@@ -150,6 +163,7 @@ const AppNavigator = () => {
               component={AdminDashboard}
               options={{ headerShown: false }}
             />
+            <Tab.Screen name="Home" component={HomeScreen} />
           </Stack.Navigator>
         )}
       </NavigationContainer>

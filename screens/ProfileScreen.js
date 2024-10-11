@@ -7,10 +7,12 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { Ionicons } from "@expo/vector-icons";
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ onLogout }) => {
   const [userData, setUserData] = useState({
     firstName: "Vedant",
     middleName: "Girish",
@@ -77,10 +79,34 @@ const ProfileScreen = () => {
     setProfilePic(null);
   };
 
+  const handleLogout = () => {
+    // Show confirmation alert
+    Alert.alert(
+      "Logout", // Title of the alert
+      "Are you sure you want to log out?", // Message
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Logout cancelled"), // If user selects "Cancel"
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => onLogout(), // If user selects "Yes", log out
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <Text style={styles.header}>Profile</Text>
+
+        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+          <Ionicons name="log-out-outline" size={30} color="#ff4500" />
+        </TouchableOpacity>
 
         <TouchableOpacity onPress={pickImage} style={styles.avatarContainer}>
           {renderProfilePicture()}
@@ -314,6 +340,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: -10,
     marginBottom: 20,
+  },
+  logoutButton: {
+    backgroundColor: "#fff",
+    padding: 10,
+    elevation: 1,
+    borderRadius: 5,
+    position: "absolute",
+    top: 15,
+    right: 15,
+    shadowOpacity: 1,
   },
 });
 
