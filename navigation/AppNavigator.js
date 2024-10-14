@@ -3,17 +3,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/HomeScreen";
-import BookingScreen from "../screens/BookingScreen";
-import ListScreen from "../screens/ListScreen";
-import NotificationScreen from "../screens/NotificationScreen";
-import ProfileScreen from "../screens/ProfileScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
-import SlotBookingScreen from "../screens/SlotBookingScreen";
-import { Ionicons } from "@expo/vector-icons";
 import { View, ActivityIndicator } from "react-native";
 import Toast from "react-native-toast-message";
 import AdminDashboard from "../screens/AdminDashboard";
+import UserDashboard from "../screens/UserDashboard";
 
 
 const Stack = createStackNavigator();
@@ -61,74 +56,46 @@ const AppNavigator = () => {
     setIsAdminLoggedIn(false); // Reset admin login if necessary
   };
 
+  const handleRegister = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setIsLoggedIn(true);
+    }, 500);
+  };
+
+
   return (
     <>
       <NavigationContainer>
         {isLoggedIn ? (
-          <Stack.Navigator>
-            <Stack.Screen name="Main" options={{ headerShown: false }}>
-              {() => (
-                <Tab.Navigator
-                  initialRoute="Home"
-                  screenOptions={({ route }) => ({
-                    tabBarIcon: ({ color, size }) => {
-                      let iconName;
-                      if (route.name === "Home") {
-                        iconName = "home";
-                      } else if (route.name === "My Bookings") {
-                        iconName = "calendar";
-                      } else if (route.name === "List") {
-                        iconName = "list";
-                      } else if (route.name === "Notifications") {
-                        iconName = "notifications";
-                      } else if (route.name === "Profile") {
-                        iconName = "person";
-                      }
-                      return (
-                        <Ionicons name={iconName} size={size} color={color} />
-                      );
-                    },
-                    tabBarActiveTintColor: "#ff4500",
-                    tabBarInactiveTintColor: "gray",
-                  })}
-                >
-                  <Tab.Screen name="Home" component={HomeScreen} />
-                  <Tab.Screen name="My Bookings">
-                    {(props) => (
-                      <BookingScreen {...props} bookings={bookings} />
-                    )}
-                  </Tab.Screen>
-                  <Tab.Screen name="List" component={ListScreen} />
-                  <Tab.Screen
-                    name="Notifications"
-                    component={NotificationScreen}
-                  />
-                  <Tab.Screen name="Profile">
-                    {(props) => (
-                      <ProfileScreen {...props} onLogout={handleLogout} />
-                    )}
-                  </Tab.Screen>
-                </Tab.Navigator>
+         <Stack.Navigator>
+            <Stack.Screen
+              name="UserDashboard"
+              options={{ headerShown: false }}
+            >
+              {(props) => (
+                <UserDashboard
+                  {...props}
+                  bookings={bookings}
+                  handleLogout={handleLogout}
+                />
               )}
             </Stack.Screen>
-
             <Stack.Screen name="SlotBooking">
               {(props) => (
                 <SlotBookingScreen {...props} addBooking={addBooking} />
               )}
             </Stack.Screen>
-            <Stack.Screen
-              name="Register"
-              component={RegisterScreen}
-              options={{ title: "Registration" }}
-            />
-
-            <Stack.Screen
-              name="Adminlogin"
-              component={AdminDashboard}
-              options={{ title: "Admin Panel" }}
-            />
           </Stack.Navigator>
+     ) : isAdminLoggedIn ? (
+       <Stack.Navigator>
+         <Stack.Screen
+           name="AdminDashboard"
+           component={AdminDashboard}
+           options={{ headerShown: false }}
+         />
+       </Stack.Navigator>
         ) : isAdminLoggedIn ? (
           <Stack.Navigator>
             <Stack.Screen
@@ -148,12 +115,14 @@ const AppNavigator = () => {
                 />
               )}
             </Stack.Screen>
-            <Stack.Screen
-              name="Register"
-              component={RegisterScreen}
-              options={{ title: "Registration" }}
-            />
-
+            <Stack.Screen name="Register">
+              {(props) => (
+                <RegisterScreen
+                  {...props}
+                  onRegister={() => handleRegister(props.navigation)} // Pass navigation
+                />
+              )}
+            </Stack.Screen>
             <Stack.Screen name="AdminLogin">
               {(props) => <AdminDashboard {...props} />}
             </Stack.Screen>
