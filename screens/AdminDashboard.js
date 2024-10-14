@@ -5,7 +5,6 @@ import MembersScreen from "./MembersScreen";
 import BookingsScreen from "./BookingsScreen";
 import NotificationsScreen from "./NotificationsScreen";
 import SettingsScreen from "./SettingsScreen";
-import { NavigationContainer } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
