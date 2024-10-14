@@ -83,7 +83,10 @@ const RegisterScreen = ({ navigation, onRegister }) => {
       Alert.alert("Error", "Gender is Required");
       return;
     } 
-    if (
+    if (password.trim() !== confirmPassword.trim()) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    } if (
       firstName.trim() &&
       lastName.trim() &&
       email.trim() &&
@@ -113,7 +116,6 @@ const RegisterScreen = ({ navigation, onRegister }) => {
         })
       }
   };
-
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

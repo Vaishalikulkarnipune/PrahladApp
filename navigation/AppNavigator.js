@@ -9,6 +9,7 @@ import { View, ActivityIndicator } from "react-native";
 import Toast from "react-native-toast-message";
 import AdminDashboard from "../screens/AdminDashboard";
 import UserDashboard from "../screens/UserDashboard";
+import SlotBookingScreen from "../screens/SlotBookingScreen";
 
 
 const Stack = createStackNavigator();
