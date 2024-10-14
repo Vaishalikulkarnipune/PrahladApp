@@ -6,11 +6,12 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
-  ScrollView,
+  ScrollView
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import Toast from "react-native-toast-message";
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation, onRegister }) => {
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -36,10 +37,6 @@ const RegisterScreen = ({ navigation }) => {
     }
     if (!lastName.trim()) {
       Alert.alert("Error", "Last Name is Required");
-      return;
-    }
-    if (!email.trim()) {
-      Alert.alert("Error", "Email is Required");
       return;
     }
     if (!email.trim()) {
@@ -85,9 +82,66 @@ const RegisterScreen = ({ navigation }) => {
     if (!gender.trim()) {
       Alert.alert("Error", "Gender is Required");
       return;
-    } else {
-      navigation.navigate("Home");
+    } 
+    if (
+      firstName.trim() &&
+      lastName.trim() &&
+      email.trim() &&
+      password.trim() &&
+      confirmPassword.trim() &&
+      mobileNumber.trim() &&
+      fullAddress.trim() &&
+      area.trim() &&
+      landmark.trim() &&
+      city.trim() &&
+      state.trim() &&
+      pincode.trim()
+    ) {
+      onRegister(navigation);
+      Toast.show({
+        type: "success",
+        text1: "Registration Successful",
+        text2: "You have been registered successfully",
+      });
     }
+       else {
+        Toast.show({
+          type: "error",
+          text1: "Registration Failed",
+          text2: "Please fill in all the required fields",
+        })
+      }
+  };
+
+  const handleRegister = () => {
+    if (
+      firstName.trim() &&
+      lastName.trim() &&
+      email.trim() &&
+      password.trim() &&
+      confirmPassword.trim() &&
+      mobileNumber.trim() &&
+      fullAddress.trim() &&
+      area.trim() &&
+      landmark.trim() &&
+      city.trim() &&
+      state.trim() &&
+      pincode.trim()
+    ) {
+      onRegister(navigation);
+      Toast.show({
+        type: "success",
+        text1: "Registration Successful",
+        text2: "You have been registered successfully",
+      });
+    }
+       else {
+        Toast.show({
+          type: "error",
+          text1: "Registration Failed",
+          text2: "Please fill in all the required fields",
+        })
+      }
   };
 
   return (
@@ -218,7 +272,7 @@ const RegisterScreen = ({ navigation }) => {
       </TouchableOpacity>
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
