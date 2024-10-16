@@ -83,43 +83,16 @@ const RegisterScreen = ({ navigation, onRegister }) => {
       Alert.alert("Error", "Gender is Required");
       return;
     } 
-    if (
+    if (password.trim() !== confirmPassword.trim()) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    } if (
       firstName.trim() &&
       lastName.trim() &&
       email.trim() &&
       password.trim() &&
       confirmPassword.trim() &&
-      mobileNumber.trim() &&
-      fullAddress.trim() &&
-      area.trim() &&
-      landmark.trim() &&
-      city.trim() &&
-      state.trim() &&
-      pincode.trim()
-    ) {
-      onRegister(navigation);
-      Toast.show({
-        type: "success",
-        text1: "Registration Successful",
-        text2: "You have been registered successfully",
-      });
-    }
-       else {
-        Toast.show({
-          type: "error",
-          text1: "Registration Failed",
-          text2: "Please fill in all the required fields",
-        })
-      }
-  };
-
-  const handleRegister = () => {
-    if (
-      firstName.trim() &&
-      lastName.trim() &&
-      email.trim() &&
-      password.trim() &&
-      confirmPassword.trim() &&
+      password.trim() === confirmPassword.trim() &&
       mobileNumber.trim() &&
       fullAddress.trim() &&
       area.trim() &&
