@@ -3,10 +3,11 @@ import psycopg2
 from config import get_db_connection, release_db_connection
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
-
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
 def validate_email(email):
     pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
