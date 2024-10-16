@@ -2,7 +2,7 @@ import psycopg2
 from psycopg2 import pool
 
 class Config:
-    # Database configuration
+    # Database configurationclear
     DB_HOST = "localhost"
     DB_PORT = "5432"
     DB_NAME = "Upasana"
