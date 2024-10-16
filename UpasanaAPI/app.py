@@ -1,11 +1,20 @@
 from flask import Flask, request, jsonify
 import psycopg2
 from config import get_db_connection, release_db_connection
+from werkzeug.security import generate_password_hash, check_password_hash
+import re
+
 
 
 app = Flask(__name__)
 
+def validate_email(email):
+    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    return re.match(pattern, email)
 
+def validate_mobile_number(mobile_number):
+    pattern = r'^\d{10}$'  # Assuming a 10-digit mobile number
+    return re.match(pattern, mobile_number)
 
 # Step 2: API route for inserting data into users table
 @app.route('/register', methods=['POST'])
@@ -35,15 +44,23 @@ def register_user():
     if password != confirm_password:
         return jsonify({"error": "Passwords do not match"}), 400
 
+    if not validate_email(email):
+        return jsonify({"error": "Invalid email format"}), 400
+
+    if not validate_mobile_number(mobile_number):
+        return jsonify({"error": "Invalid mobile number format"}), 400
+
     # Insert the user data into PostgreSQL
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
+        password = data.get('password')
+        hashed_password = generate_password_hash(password)
 
         # Step 4: Insert query
         insert_query = """
         INSERT INTO users (
-            first_name, middle_name, last_name, email, password, confirm_password,
+            first_name, middle_name, last_name, email, password,
             mobile_number, alternate_mobile_number, flat_no, full_address, area,
             landmark, city, state, pincode, anugrahit, gender
         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
@@ -51,7 +68,7 @@ def register_user():
 
         # Execute the query
         cursor.execute(insert_query, (
-            first_name, middle_name, last_name, email, password, confirm_password,
+            first_name, middle_name, last_name, email, hashed_password, 
             mobile_number, alt_mobile_number, flat_no, full_address, area,
             landmark, city, state, pincode, anugrahit, gender
         ))
