@@ -55,13 +55,13 @@ def register_user():
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        password = data.get('password')
-        hashed_password = generate_password_hash(password)
+        # password = data.get('password')
+        # hashed_password = generate_password_hash(password)
 
         # Step 4: Insert query
         insert_query = """
         INSERT INTO users (
-            first_name, middle_name, last_name, email, password,
+            first_name, middle_name, last_name, email, password,confirm_password,
             mobile_number, alternate_mobile_number, flat_no, full_address, area,
             landmark, city, state, pincode, anugrahit, gender
         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
@@ -69,7 +69,7 @@ def register_user():
 
         # Execute the query
         cursor.execute(insert_query, (
-            first_name, middle_name, last_name, email, hashed_password, 
+            first_name, middle_name, last_name, email,password,confirm_password, 
             mobile_number, alt_mobile_number, flat_no, full_address, area,
             landmark, city, state, pincode, anugrahit, gender
         ))
