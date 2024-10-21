@@ -1,3 +1,9 @@
+**How to Install required Python libraries**
+**Goto API Folder**
+pip install -r requirements.txt
+
+
+**How to Open Python service to be accessible from Expo App**
 **CHATGPT PROMPT**
 I have started my python service like python app.py
 help me to make sure that service is accissibleby IP

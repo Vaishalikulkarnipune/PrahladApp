@@ -33,6 +33,12 @@ const RegisterScreen = ({ navigation, onRegister }) => {
 
   // Determine the environment safely
   const appEnv = (Constants.manifest && Constants.manifest.releaseChannel) || 'dev';
+  // How to get this IP 
+  //cmd -->
+  //  ipconfig --Will Give
+  //        -->IPv4 Address. . . . . . . . . . . : 192.168.1.9
+  //Replace in apiUrl: 'http://192.168.1.9:5000'
+
   const envConfig = Constants.manifest?.extra?.[appEnv] || { apiUrl: 'http://192.168.1.9:5000' }; // Default API URL
 
   // Use the environment-specific API URL
