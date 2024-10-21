@@ -36,13 +36,13 @@ export default ({ config }) => {
 
   // Define environment-specific settings
   const envConfig = {
-    development: {
+    dev: {
       extra: {
         apiUrl: "http://192.168.1.9:5000",
         environment: "dev",
       },
     },
-    production: {
+    prod: {
       extra: {
         apiUrl: "https://api.prahladapp.com",
         environment: "prd",
