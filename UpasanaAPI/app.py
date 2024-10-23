@@ -224,10 +224,10 @@ def login():
         user = cursor.fetchone()
 
         if user:
-            user_id, hashed_password = user
+            user_id, stored_password = user
 
             # Verify the password
-            if check_password_hash(hashed_password, password):
+            if stored_password == password:
                 return jsonify({"message": "Login successful", "user_id": user_id}), 200
             else:
                 return jsonify({"error": "Invalid password"}), 401
@@ -243,6 +243,8 @@ def login():
     finally:
         cursor.close()
         conn.close()
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
