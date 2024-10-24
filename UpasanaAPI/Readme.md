@@ -17,9 +17,9 @@ Ensure that your machine's firewall is not blocking incoming connections to the 
 **For Linux (Ubuntu) Firewall:**
 Use ufw to allow the port (e.g., 5000):
 
-bash
-Copy code
+```bash
 sudo ufw allow 5000/tcp
+```
 
 **For Windows Firewall:**
 Go to Control Panel > System and Security > Windows Defender Firewall.
@@ -34,9 +34,9 @@ Click Firewall Options, then allow incoming connections for Python or specify th
 **Start the Flask App**
 Now, run your Flask app again using:
 
-bash
-Copy code
+```bash
 python app.py
+```
 This will start the Flask app and bind it to 0.0.0.0, making it accessible over the network.
 
 **Access Flask Service via IP**
@@ -44,6 +44,6 @@ To access the Flask service from another device on your network, use the IP addr
 
 For example, if the IP of your machine is 192.168.1.100 and Flask is running on port 5000, access the service like this:
 
-bash
-Copy code
+```bash
 http://192.168.1.100:5000
+```
