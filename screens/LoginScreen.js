@@ -14,10 +14,16 @@ import Toast from "react-native-toast-message";
 const LoginScreen = ({ navigation, onLogin, onAdminLogin }) => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
+  
 
+  const adminCredentials = {
+    mobileNumber: '8825784512',
+    password: "A",
+  };
+  
     // Determine the environment safely
     const appEnv = (Constants.manifest && Constants.manifest.releaseChannel) || 'dev';
-    const envConfig = Constants.manifest?.extra?.[appEnv] || { apiUrl: 'http://192.168.1.2:5000' }; // Default API URL
+    const envConfig = Constants.manifest?.extra?.[appEnv] || { apiUrl: 'http://192.168.1.9:5000' }; // Default API URL
   
     // Use the environment-specific API URL
     const apiUrl = envConfig.apiUrl;
@@ -33,6 +39,14 @@ const LoginScreen = ({ navigation, onLogin, onAdminLogin }) => {
         return;
       }
     
+      if (
+        mobileNumber === adminCredentials.mobileNumber &&
+        password === adminCredentials.password
+      ) {
+        onAdminLogin();
+          return;
+        }
+
       // Create the payload for the login request
       const payload = {
         mobile_number: mobileNumber.trim(),
@@ -79,7 +93,9 @@ const LoginScreen = ({ navigation, onLogin, onAdminLogin }) => {
           text2: error.message || "An error occurred during login.",
         });
       }
-  
+      
+    
+      
   };
 
   return (
