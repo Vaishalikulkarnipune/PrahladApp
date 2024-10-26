@@ -208,6 +208,8 @@ def delete_user(user_id):
 # User login route
 @app.route('/login', methods=['POST'])
 def login():
+    conn = None
+    cursor = None
     try:
         data = request.json
         mobile_number = data.get('mobile_number')
@@ -241,8 +243,12 @@ def login():
         logging.error(f"Error: {str(e)}")
         return jsonify({"error": "An unexpected error occurred"}), 500
     finally:
-        cursor.close()
-        conn.close()
+        # Close cursor and connection if they are defined
+        if cursor is not None:
+            cursor.close()
+        if conn is not None:
+            conn.close()
+
 
 
 
