@@ -17,7 +17,7 @@ const LoginScreen = ({ navigation, onLogin, onAdminLogin }) => {
 
     // Determine the environment safely
     const appEnv = (Constants.manifest && Constants.manifest.releaseChannel) || 'dev';
-    const envConfig = Constants.manifest?.extra?.[appEnv] || { apiUrl: 'http://192.168.1.2:5000' }; // Default API URL
+    const envConfig = Constants.manifest?.extra?.[appEnv] || { apiUrl: 'http://192.168.1.9:5000' }; // Default API URL
   
     // Use the environment-specific API URL
     const apiUrl = envConfig.apiUrl;
